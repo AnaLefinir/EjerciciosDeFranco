@@ -32,7 +32,7 @@ describe('Testing SemVer constructor', function(){
 
     /*Comments
         cuando se crea un SemVer, y se pasa como argumento un numero del estilo, por ejemplo, 05, el new SemVer lo guarda como 5 y no
-        como 05.
+        como 5.
 
     */
 });
