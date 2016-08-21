@@ -7,11 +7,6 @@ myModuleII = {
         var regex = /\w+@\w+\.(com|net|org|edu)/.test(string);
 
         return regex;
-        //if (regex) {
-        //    return 'Email valid';
-        //} else {
-        //    console.log('Invalid Email');
-        //}
     },
 
     validateNumber : function (string) {
