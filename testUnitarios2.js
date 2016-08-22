@@ -15,7 +15,7 @@ describe('Testing SemVer constructor', function () {
     var minorExp;
     var revisionExp;
 
-    beforeEach(function(){
+    beforeEach(function () {
         semVerToTest = new moduleSemVer.SemVer(23, 11, 5);
         majorObtFromSemVer = semVerToTest.major;
         minorObtFromSemVer = semVerToTest.minor;
@@ -43,7 +43,7 @@ describe('Testing SemVer constructor', function () {
 
         //Arrange
         var stringExp = '23.5.6';
-        var semverToTest = new moduleSemVer.SemVer(23,5,6);
+        var semverToTest = new moduleSemVer.SemVer(23, 5, 6);
 
         //Act
         var stringFromSemVerMethodConvert = semverToTest.convertToString();
@@ -82,9 +82,10 @@ describe('Testing SemVer constructor', function () {
 
 describe('Testing parse function', function () {
 
-    it('-The semver created from Parse Function, its major value obtained, should be match with the major value expected', function () {
+    it('-The semver created, its major value obtained, should be match with the major value expected', function () {
         //Arrange
-        var semVer = new moduleSemVer.SemVer(22, 33, 11);;
+        var semVer = new moduleSemVer.SemVer(22, 33, 11);
+        ;
         var majorExpectMatch = semVer.major;
 
         var parseSemVer;
@@ -98,7 +99,7 @@ describe('Testing parse function', function () {
         assert.equal(majorExpectMatch, majorObtFromParse);
     });
 
-    it('-The semver created from Parse Function, its minor value obtained, should be match with the minor value expected', function () {
+    it('-The semver created, its minor value obtained, should be match with the minor value expected', function () {
         //Arrange
         var semVer = new moduleSemVer.SemVer(22, 33, 11);
         var minorExpectMatch = semVer.minor;
@@ -112,10 +113,10 @@ describe('Testing parse function', function () {
 
         //Assert
         assert.equal(minorExpectMatch, minorObtFromParse);
-        
+
     });
 
-    it('-The semver created from Parse Function, its revision value obtained, should be match with the revision value expected', function () {
+    it('-The semver created, its revision value obtained, should be match with the revision value expected', function () {
         //Arrange
         var semVer = new moduleSemVer.SemVer(22, 33, 11);
         var revisionExpectMatch = semVer.revision;
@@ -132,71 +133,83 @@ describe('Testing parse function', function () {
 
     });
 
-    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'22.33.\'', function () {
+    it('-Should return error, when try to validate through regex, the string arguments: \'22.33.\'', function () {
         assert.throws(function () {
             moduleSemVer.parse('22.33.');
         }, /Error: Invalid String/);
     });
 
-    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'22.\'', function () {
+    it('-Should return error, when try to validate through regex, the string arguments: \'22.\'', function () {
         assert.throws(function () {
             moduleSemVer.parse('22.');
         }, /Error: Invalid String/);
     });
 
-    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'22\'', function () {
+    it('-Should return error, when try to validate through regex, the string arguments: \'22\'', function () {
         assert.throws(function () {
             moduleSemVer.parse('22');
         }, /Error: Invalid String/);
     });
 
-    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'\'', function () {
+    it('-Should return error, when try to validate through regex, the string arguments: \'\'', function () {
         assert.throws(function () {
             moduleSemVer.parse('');
         }, /Error: Invalid String/);
     });
 
-    it('-Should return error from Parse function when try to validate through regex, the arguments: 22,33,11(numbers)', function () {
+    it('-Should return error, when try to validate through regex, the arguments: 22,33,11(numbers)', function () {
         assert.throws(function () {
-            moduleSemVer.parse(22,33,11);
+            moduleSemVer.parse(22, 33, 11);
         }, /Error: Invalid String/);
     });
 });
 
-/*
+
 describe('Testing greater function', function () {
+    it('-Should return semver1', function () {
+        //Arrange
+        var semver1 = new moduleSemVer.SemVer(11, 22, 34),
+            semver2 = new moduleSemVer.SemVer(11, 22, 33);
 
+        //Act
+        var greaterExpReturnSemver = moduleSemVer.greater(semver1, semver2);
 
-    var semver1 = new moduleSemVer.SemVer(11, 22, 33),
-        semver2 = new moduleSemVer.SemVer(11, 22, 34),
-        semver3 = new moduleSemVer.SemVer(11, 22, 33),
-        semver4 = new moduleSemVer.SemVer(12, 22, 33),
-        semver5 = new moduleSemVer.SemVer(11, 33, 33);
-
-
-    var greaterExpsemver2 = moduleSemVer.greater(semver1, semver2),
-        greaterExpsemver4 = moduleSemVer.greater(semver2, semver4),
-        greaterExpsemver5 = moduleSemVer.greater(semver2, semver5),
-        expReturnEqual = moduleSemVer.greater(semver1, semver3);
-
-
-
+        //Assert
+        assert.equal(semver1, greaterExpReturnSemver);
+    });
 
     it('-Should return semver2', function () {
-        assert.equal(semver2, greaterExpsemver2);
+        //Arrange
+        var semver1 = new moduleSemVer.SemVer(11, 22, 34),
+            semver2 = new moduleSemVer.SemVer(12, 22, 33);
+        //Act
+        var greaterExpReturnSemver = moduleSemVer.greater(semver1, semver2);
+        //Assert
+        assert.equal(semver2, greaterExpReturnSemver);
     });
 
-    it('-Should return semver4', function () {
-        assert.equal(semver4, greaterExpsemver4);
+    it('-Should return semver2', function () {
+        //Arrange
+        var semver1 = new moduleSemVer.SemVer(11, 22, 34),
+            semver2 = new moduleSemVer.SemVer(11, 33, 33);
+
+        //Act
+        var greaterExpReturnSemver = moduleSemVer.greater(semver1, semver2);
+        //Assert
+        assert.equal(semver2, greaterExpReturnSemver);
     });
 
-    it('-Should return semver5', function () {
-        assert.equal(semver5, greaterExpsemver5);
-    });
+    it('-Should return error, when try to get the greater semver with two semver equal', function () {
+        //Arrange
+        var semver1 = new moduleSemVer.SemVer(11, 22, 34),
+            semver2 = new moduleSemVer.SemVer(11, 22, 34);
 
-    it('-Should return equal', function () {
-        assert.equal('There are equals', expReturnEqual);
+        //Act
+
+        //Assert
+        assert.throws(function () {
+            moduleSemVer.greater(semver1, semver2);
+        }, /There are equals/);
     });
 });
 
-*/
