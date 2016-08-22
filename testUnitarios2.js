@@ -2,151 +2,166 @@
  * Created by Anita on 17/08/2016.
  */
 var assert = require('assert');
-var myModulesI = require("./SemVer.js");
+var moduleSemVer = require("./SemVer.js");
 
 describe('Testing SemVer constructor', function () {
 
+    var semVerToTest;
+    var majorObtFromSemVer;
+    var minorObtFromSemVer;
+    var revisionObtFromSemVer;
 
-    var semVer = new myModulesI.SemVer(23, 11, 5);
-    var majorObt = semVer.major;
-    var minorObt = semVer.minor;
-    var revisionObt = semVer.revision;
+    var majorExp;
+    var minorExp;
+    var revisionExp;
 
+    beforeEach(function(){
+        semVerToTest = new moduleSemVer.SemVer(23, 11, 5);
+        majorObtFromSemVer = semVerToTest.major;
+        minorObtFromSemVer = semVerToTest.minor;
+        revisionObtFromSemVer = semVerToTest.revision;
 
-    it('-Should be equal major', function () {
-        assert.equal(23, majorObt);
+        majorExp = 23;
+        minorExp = 11;
+        revisionExp = 5;
     });
 
-    it('-Should be equal minor', function () {
-        assert.equal(11, minorObt);
+
+    it('-The semver created, its major value obtained, should be match with the major value expected', function () {
+        assert.equal(majorExp, majorObtFromSemVer);
     });
 
-    it('-Should be equal revision', function () {
-        assert.equal(5, revisionObt);
+    it('-The semver created, its minor value obtained, should be match with the minor value expected', function () {
+        assert.equal(minorExp, minorObtFromSemVer);
     });
 
-    it('-Should be return a String from a SemVer', function () {
-        assert.equal('23.11.5', semVer.convertToString());
+    it('-The semver created, its revision value obtained, should be match with the revision value expected', function () {
+        assert.equal(revisionExp, revisionObtFromSemVer);
     });
 
-    it('Should return a Error for negative number', function () {
+    it('-Should be return a string with the members from the SemVer who call the function: convertToString', function () {
+
+        //Arrange
+        var stringExp = '23.5.6';
+        var semverToTest = new moduleSemVer.SemVer(23,5,6);
+
+        //Act
+        var stringFromSemVerMethodConvert = semverToTest.convertToString();
+
+        //Asserts
+        assert.equal(stringExp, stringFromSemVerMethodConvert);
+    })
+
+    it('Should return a Error for a negative number pass as arguments in a SemVer', function () {
         assert.throws(function () {
-            new myModulesI.SemVer(-1, 0, 5);
-        }, /Error: negative number/)
+            new moduleSemVer.SemVer(-1, 0, 5);
+        }, /Error: negative number or not a number/)
     });
-    /*Comments
-     cuando se crea un SemVer, y se pasa como argumento un numero del estilo, por ejemplo, 05, el new SemVer lo guarda como 5 y no
-     como 5.
 
-     */
+    it('Should return a Error when pass a string as arguments in a SemVer', function () {
+        assert.throws(function () {
+            new moduleSemVer.SemVer('hello', 0, 5);
+        }, /Error: negative number or not a number/)
+    });
+
+    it('Should return a Error when pass a boolean as arguments in a SemVer', function () {
+        assert.throws(function () {
+            new moduleSemVer.SemVer(false, 0, 5);
+        }, /Error: negative number or not a number/)
+    });
+
+    it('Should return a Error when pass a undefined as arguments in a SemVer', function () {
+        assert.throws(function () {
+            new moduleSemVer.SemVer(0, 5);
+        }, /Error: negative number or not a number/)
+    });
+
+
 });
+////////////////////////
 
 describe('Testing parse function', function () {
 
-    var semVer = new myModulesI.SemVer(22, 33, 11);
-    var majorExpect = semVer.major;
-    var minorExpect = semVer.minor;
-    var revisionExpect = semVer.revision;
+    var semVer;
+    var majorExpectMatch;
+    var minorExpectMatch;
+    var revisionExpectMatch;
 
-    var parseSemVer = myModulesI.parse('22.33.11');
-    var majorObt = parseSemVer.major;
-    var minorObt = parseSemVer.minor;
-    var revisionObt = parseSemVer.revision;
+    var parseSemVer;
+    var majorObtFromParse;
+    var minorObtFromParse;
+    var revisionObtFromParse;
 
-    it('-Should return equal major', function () {
-        assert.equal(majorExpect, majorObt);
+    beforeEach(function(){
+        semVer = new moduleSemVer.SemVer(22, 33, 11);
+        majorExpectMatch = semVer.major;
+        minorExpectMatch = semVer.minor;
+        revisionExpectMatch = semVer.revision;
+
+        parseSemVer = moduleSemVer.parse('22.33.11');
+        majorObtFromParse = parseSemVer.major;
+        minorObtFromParse = parseSemVer.minor;
+        revisionObtFromParse = parseSemVer.revision;
     });
 
-    it('-Should return equal minor', function () {
-        assert.equal(minorExpect, minorObt);
+    it('-The semver created from Parse Function, its major value obtained, should be match with the major value expected', function () {
+        assert.equal(majorExpectMatch, majorObtFromParse);
     });
 
-    it('-Should return equal revision', function () {
-        assert.equal(revisionExpect, revisionObt);
+    it('-The semver created from Parse Function, its minor value obtained, should be match with the minor value expected', function () {
+        assert.equal(minorExpectMatch, minorObtFromParse);
     });
 
-    it('-Should return error for regex 1', function () {
+    it('-The semver created from Parse Function, its revision value obtained, should be match with the revision value expected', function () {
+        assert.equal(revisionExpectMatch, revisionObtFromParse);
+    });
+
+    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'22.33.\'', function () {
         assert.throws(function () {
-            myModulesI.parse('22.33.');
+            moduleSemVer.parse('22.33.');
         }, /Error: Invalid String/);
     });
 
-    it('-Should return error for regex 2', function () {
+    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'22.\'', function () {
         assert.throws(function () {
-            myModulesI.parse('22.');
+            moduleSemVer.parse('22.');
         }, /Error: Invalid String/);
     });
 
-    it('-Should return error for regex 3', function () {
+    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'22\'', function () {
         assert.throws(function () {
-            myModulesI.parse('22');
+            moduleSemVer.parse('22');
         }, /Error: Invalid String/);
     });
 
+    it('-Should return error from Parse function when try to validate through regex, the string arguments: \'\'', function () {
+        assert.throws(function () {
+            moduleSemVer.parse('');
+        }, /Error: Invalid String/);
+    });
 
+    it('-Should return error from Parse function when try to validate through regex, the arguments: 22,33,11(numbers)', function () {
+        assert.throws(function () {
+            moduleSemVer.parse(22,33,11);
+        }, /Error: Invalid String/);
+    });
 });
 
-describe('Testing create function', function () {
-
-
-    var semVer = new myModulesI.SemVer(66, 55, 44);
-    var majorExpect = semVer.major;
-    var minorExpect = semVer.minor;
-    var revisionExpect = semVer.revision;
-
-    var createSemVer = myModulesI.create(66, 55, 44);
-    var majorObt = createSemVer.major;
-    var minorObt = createSemVer.minor;
-    var revisionObt = createSemVer.revision;
-
-
-    it('-Should return equal major', function () {
-        assert.equal(majorExpect, majorObt);
-    });
-
-    it('-Should return equal minor', function () {
-        assert.equal(minorExpect, minorObt);
-    });
-
-    it('-Should return equal revision', function () {
-        assert.equal(revisionExpect, revisionObt);
-    });
-
-    it('-Should return error for incomplete arguments 1', function () {
-        assert.throws(function () {
-            myModulesI.create(66, 55);
-        }, /Error: not a number input/);
-    });
-
-    it('-Should return error for incomplete arguments 2', function () {
-        assert.throws(function () {
-            myModulesI.create(66);
-        }, /Error: not a number input/);
-    });
-
-    it('-Should return error for incomplete arguments 3', function () {
-        assert.throws(function () {
-            myModulesI.create();
-        }, /Error: not a number input/);
-    });
-
-
-});
-
+/*
 describe('Testing greater function', function () {
 
 
-    var semver1 = new myModulesI.SemVer(11, 22, 33),
-        semver2 = new myModulesI.SemVer(11, 22, 34),
-        semver3 = new myModulesI.SemVer(11, 22, 33),
-        semver4 = new myModulesI.SemVer(12, 22, 33),
-        semver5 = new myModulesI.SemVer(11, 33, 33);
+    var semver1 = new moduleSemVer.SemVer(11, 22, 33),
+        semver2 = new moduleSemVer.SemVer(11, 22, 34),
+        semver3 = new moduleSemVer.SemVer(11, 22, 33),
+        semver4 = new moduleSemVer.SemVer(12, 22, 33),
+        semver5 = new moduleSemVer.SemVer(11, 33, 33);
 
 
-    var greaterExpsemver2 = myModulesI.greater(semver1, semver2),
-        greaterExpsemver4 = myModulesI.greater(semver2, semver4),
-        greaterExpsemver5 = myModulesI.greater(semver2, semver5),
-        expReturnEqual = myModulesI.greater(semver1, semver3);
+    var greaterExpsemver2 = moduleSemVer.greater(semver1, semver2),
+        greaterExpsemver4 = moduleSemVer.greater(semver2, semver4),
+        greaterExpsemver5 = moduleSemVer.greater(semver2, semver5),
+        expReturnEqual = moduleSemVer.greater(semver1, semver3);
 
 
 
@@ -167,3 +182,5 @@ describe('Testing greater function', function () {
         assert.equal('There are equals', expReturnEqual);
     });
 });
+
+*/
