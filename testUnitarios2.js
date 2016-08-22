@@ -78,7 +78,6 @@ describe('Testing SemVer constructor', function () {
 
 
 });
-////////////////////////
 
 describe('Testing parse function', function () {
 
