@@ -8,7 +8,7 @@ function SemVer(major, minor, revision) {
     this.minor = minor;
     this.revision = revision;
 
-    var conditions = major < 0 || typeof(major) !== 'number' || minor < 0 || typeof(minor) !== 'number' || typeof(revision) !== 'number' || revision < 0;
+    var conditions = typeof(major) !== 'number' || major < 0 || typeof(minor) !== 'number' ||  minor < 0 ||  typeof(revision) !== 'number' || revision < 0;
 
     if (conditions) {
         throw new Error('Error: negative number or not a number');

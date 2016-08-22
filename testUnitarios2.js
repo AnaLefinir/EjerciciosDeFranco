@@ -82,38 +82,54 @@ describe('Testing SemVer constructor', function () {
 
 describe('Testing parse function', function () {
 
-    var semVer;
-    var majorExpectMatch;
-    var minorExpectMatch;
-    var revisionExpectMatch;
+    it('-The semver created from Parse Function, its major value obtained, should be match with the major value expected', function () {
+        //Arrange
+        var semVer = new moduleSemVer.SemVer(22, 33, 11);;
+        var majorExpectMatch = semVer.major;
 
-    var parseSemVer;
-    var majorObtFromParse;
-    var minorObtFromParse;
-    var revisionObtFromParse;
+        var parseSemVer;
+        var majorObtFromParse;
 
-    beforeEach(function(){
-        semVer = new moduleSemVer.SemVer(22, 33, 11);
-        majorExpectMatch = semVer.major;
-        minorExpectMatch = semVer.minor;
-        revisionExpectMatch = semVer.revision;
-
+        //Act
         parseSemVer = moduleSemVer.parse('22.33.11');
         majorObtFromParse = parseSemVer.major;
-        minorObtFromParse = parseSemVer.minor;
-        revisionObtFromParse = parseSemVer.revision;
-    });
 
-    it('-The semver created from Parse Function, its major value obtained, should be match with the major value expected', function () {
+        //Assert
         assert.equal(majorExpectMatch, majorObtFromParse);
     });
 
     it('-The semver created from Parse Function, its minor value obtained, should be match with the minor value expected', function () {
+        //Arrange
+        var semVer = new moduleSemVer.SemVer(22, 33, 11);
+        var minorExpectMatch = semVer.minor;
+
+        var parseSemVer;
+        var minorObtFromParse;
+
+        //Act
+        parseSemVer = moduleSemVer.parse('22.33.11');
+        minorObtFromParse = parseSemVer.minor;
+
+        //Assert
         assert.equal(minorExpectMatch, minorObtFromParse);
+        
     });
 
     it('-The semver created from Parse Function, its revision value obtained, should be match with the revision value expected', function () {
+        //Arrange
+        var semVer = new moduleSemVer.SemVer(22, 33, 11);
+        var revisionExpectMatch = semVer.revision;
+
+        var parseSemVer;
+        var revisionObtFromParse;
+
+        //Act
+        parseSemVer = moduleSemVer.parse('22.33.11');
+        revisionObtFromParse = parseSemVer.revision;
+
+        //Assert
         assert.equal(revisionExpectMatch, revisionObtFromParse);
+
     });
 
     it('-Should return error from Parse function when try to validate through regex, the string arguments: \'22.33.\'', function () {
